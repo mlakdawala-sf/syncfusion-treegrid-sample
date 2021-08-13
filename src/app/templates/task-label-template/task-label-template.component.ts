@@ -23,7 +23,7 @@ export class TaskLabelTemplateComponent {
   @Input() set data(val) {
     this._data = val;
     if (this._data) {
-      this.columnValue = this._data.fieldValues[this._data?.column?.field];
+      this.columnValue = this._data.fieldValues['name'];
       this.subtaskCount = this._data.childRecords?.length;
       this.isRootTask = this._data.depth === -1 ? true : false;
     }

@@ -26,13 +26,13 @@ export class AppComponent {
       columns.push({
         columnType: 'text',
         template: this.textTemplate,
-        edit: this.textTemplate,
+
         editType: 'templateedit',
 
-        id: 'name',
+        id: 'name' + index,
         allowEditing: true,
-        width: 100,
-        minWidth: '100',
+        width: 200,
+        minWidth: 200,
         allowReordering: false,
         headerText: 'Items',
       });

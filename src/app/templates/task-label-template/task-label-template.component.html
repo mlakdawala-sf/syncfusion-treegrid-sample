@@ -1,9 +1,11 @@
 <mat-icon
-  *ngIf="data.column?.field === 'name' && !isGuestUser"
   [class.active-menu-icon]="data.active"
-  class="icomoon options menu-options cursor-pointer"
   [matMenuTriggerFor]="taskOptions"
-></mat-icon>
+  aria-hidden="false"
+  aria-label="Example home icon"
+  >home</mat-icon
+>
+
 <span *ngIf="isGuestUser" class="icon-space-for-guest"></span>
 
 <span
