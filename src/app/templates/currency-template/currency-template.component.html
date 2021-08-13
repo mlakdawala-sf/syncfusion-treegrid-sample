@@ -1,0 +1,10 @@
+<span
+  class="template-label-text flex-inherit"
+  *ngIf="
+    data.fieldValues[data.column.field]?.value?.value ||
+    data.fieldValues[data.column.field]?.value?.value === 0
+  "
+>
+  {{ data.column.metaData?.unit }}
+  <span class="currency">{{ amount }} </span>
+</span>

@@ -1,0 +1,39 @@
+<!-- 
+<div *ngIf="columns.length && dataSource.length" style="height: 500px;width: 100%;">
+  <ejs-treegrid
+  #grid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  height="500px"
+  enableVirtualization="true"
+  [treeColumnIndex]="0"
+  idMapping="id"
+  parentIdMapping="parentTaskId"
+  [editSettings]="editSettings"
+>
+</ejs-treegrid>
+
+</div> -->
+<ejs-treegrid
+  #treegrid
+  [dataSource]="dataSource"
+  [enableVirtualization]="true"
+  idMapping="id"
+  parentIdMapping="parentTaskId"
+  [treeColumnIndex]="0"
+  height="600"
+  rowHeight="40"
+  [columns]="columns"
+>
+  <!-- <e-columns>
+      <e-column field='TaskID' headerText='Player Jersey' width='120' textAlign='Right'></e-column>
+      <e-column field='FIELD1' headerText='Player Name' width='120'></e-column>
+      <e-column field='FIELD2' headerText='Year' width='100' textAlign='Right'></e-column>
+      <e-column field='FIELD3' headerText='Stint' width='120' textAlign='Right'></e-column>
+      <e-column field='FIELD4' headerText='TMID' width='120' textAlign='Right'></e-column>
+  </e-columns> -->
+</ejs-treegrid>
+
+<ng-template #textTemplate let-data>
+  <span class="template-label-text"> <em class="status"></em>Hey </span>
+</ng-template>

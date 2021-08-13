@@ -31,7 +31,26 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss",
+              "node_modules/@syncfusion/ej2-base/styles/material.css",
+              "node_modules/@syncfusion/ej2-buttons/styles/material.css",
+              "node_modules/@syncfusion/ej2-calendars/styles/material.css",
+              "node_modules/@syncfusion/ej2-dropdowns/styles/material.css",
+              "node_modules/@syncfusion/ej2-inputs/styles/material.css",
+              "node_modules/@syncfusion/ej2-lists/styles/material.css",
+              "node_modules/@syncfusion/ej2-layouts/styles/material.css",
+              "node_modules/@syncfusion/ej2-navigations/styles/material.css",
+              "node_modules/@syncfusion/ej2-popups/styles/material.css",
+              "node_modules/@syncfusion/ej2-splitbuttons/styles/material.css",
+              "node_modules/@syncfusion/ej2-grids/styles/material.css",
+              "node_modules/@syncfusion/ej2-treegrid/styles/material.css",
+              "node_modules/@syncfusion/ej2-gantt/styles/material.css",
+              "node_modules/@syncfusion/ej2-angular-grids/styles/material.css",
+              "node_modules/@syncfusion/ej2-icons/styles/material.css",
+              "node_modules/@syncfusion/ej2-angular-kanban/styles/material.css",
+              "node_modules/@syncfusion/ej2-richtexteditor/styles/material.css",
+              "node_modules/@syncfusion/ej2-angular-schedule/styles/material.css"
             ],
             "scripts": []
           },
@@ -99,6 +118,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []

@@ -1,0 +1,7 @@
+<mat-icon
+  class="icomoon MilestoneDiamond milestoneStyle fx-10"
+  *ngIf="data.fieldValues[data.column.field]?.value?.meta?.isMilestone"
+></mat-icon>
+<div class="template-label-text flex-inherit">
+  {{ data.fieldValues[data.column.field]?.value?.value }}
+</div>

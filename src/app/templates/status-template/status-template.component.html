@@ -1,0 +1,9 @@
+<span class="template-label-text">
+  <em
+    [ngStyle]="{
+      backgroundColor: data.fieldValues[data.column.field]?.value?.color
+    }"
+    class="status"
+  ></em
+  >{{ data.fieldValues[data.column.field]?.value?.displayValue }}
+</span>

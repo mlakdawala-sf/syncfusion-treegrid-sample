@@ -1,0 +1,300 @@
+<mat-icon
+  *ngIf="data.column?.field === 'name' && !isGuestUser"
+  [class.active-menu-icon]="data.active"
+  class="icomoon options menu-options cursor-pointer"
+  [matMenuTriggerFor]="taskOptions"
+></mat-icon>
+<span *ngIf="isGuestUser" class="icon-space-for-guest"></span>
+
+<span
+  class="template-label-text task-name-text fx-100"
+  title="{{ columnValue?.value?.value }} {{
+    subtaskCount > 0 && data?.column?.field === 'name' ? subtaskCount : ''
+  }}"
+  [class.subtask-wrapper]="subtaskCount > 0 && data?.column?.field === 'name'"
+  [ngClass]="data?.column?.collapse ? 'e-collapse' : 'column-value'"
+>
+  <span class="block-item">{{ columnValue?.value?.value }}</span>
+
+  <span
+    class="count"
+    *ngIf="subtaskCount > 0 && data?.column?.field === 'name'"
+  >
+    {{ subtaskCount }}
+  </span>
+</span>
+
+<div
+  *ngIf="data.column?.field === 'name' && !isGuestUser"
+  [class.active-task-icons]="data.active"
+  class="text-right-1 task-icons-1 fx"
+>
+  <mat-icon
+    matBadgeSize="small"
+    class="icomoon Survey-Outline updates-count file-icons-1 cursor-pointer"
+    matTooltip="taskFilesLbl"
+    matTooltipClass="tooltip-below"
+    automation-id="main_board_task_files_count"
+  >
+  </mat-icon>
+  <mat-icon
+    [matBadge]="data.taskUpdatesCount || undefined"
+    matBadgeSize="small"
+    class="icomoon Survey-Outline1 updates-count file-icons-1 cursor-pointer"
+    matTooltip="'taskUpdatesLbl'"
+    matTooltipClass="tooltip-below"
+    automation-id="main_board_task_updates_count"
+  >
+  </mat-icon>
+  <mat-icon
+    [matBadge]="data.proofFilesCount || undefined"
+    matBadgeSize="small"
+    class="
+      icomoon
+      Process-Compliance-1
+      updates-count
+      file-icons-1
+      cursor-pointer
+    "
+    matTooltip="proofsLbl"
+    matTooltipClass="tooltip-below"
+    automation-id="main_board_proof_files_count"
+  >
+  </mat-icon>
+</div>
+
+<mat-icon
+  *ngIf="
+    data?.itemPermission?.permission === itemViewPermission &&
+    data?.column?.field === 'name'
+  "
+  class="icon-area icon-small icomoon"
+></mat-icon>
+
+<mat-icon
+  *ngIf="subtaskCount > 0 && data?.column?.field === 'name'"
+  (dblclick)="$event.stopPropagation()"
+  class="icomoon cursor-pointer expand-icon"
+  [ngClass]="data?.expanded ? 'ios_minus' : 'plus_small'"
+></mat-icon>
+
+<mat-menu
+  #taskOptions="matMenu"
+  [ngClass]="
+    data.parentTaskId && data.parentTaskId === data.i ? 'task-options' : ''
+  "
+  class="main-board-menu-item"
+  (closed)="data.active = false"
+>
+  <ng-template matMenuContent>
+    <button
+      class="fx"
+      *ngIf="isRootTask && hasPermission && !isFilterApplied"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon add-item-above">
+        </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "addItemAboveLbl" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      *ngIf="isRootTask && hasPermission && !isFilterApplied"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon add-item-below">
+        </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "addItemBelowLbl" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      *ngIf="data.depth < maxGridDepth && hasPermission && !isFilterApplied"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon addSubtask"> </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "addSubItemLbl" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      *ngIf="isRootTask && hasPermission && !isFilterApplied"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Cut"> </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "cut" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      *ngIf="isRootTask && hasPermission && !isFilterApplied"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Pie"> </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "copy" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      *ngIf="isRootTask && hasPermission && !isFilterApplied"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Paste"> </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "pasteBelow" }}</span>
+      </span>
+    </button>
+    <button
+      *ngIf="
+        data.parentTaskId &&
+        data.parentTaskId !== data.id &&
+        hasPermission &&
+        !isFilterApplied
+      "
+      mat-menu-item
+      [disabled]="
+        data?.itemPermission?.permission === itemViewPermission &&
+        !isFilterApplied
+      "
+      class="fx"
+      automation-id="main_board_outdent_item"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Improvement"> </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "convertToItemLbl" }}</span>
+      </span>
+    </button>
+    <button
+      *ngIf="data.depth < maxGridDepth && hasPermission && !isFilterApplied"
+      isIndentAllowed
+      class="fx"
+      mat-menu-item
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon convertSubItem">
+        </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "indentItemLbl" }}</span>
+      </span>
+    </button>
+    <button *ngIf="hasPermission" class="fx" mat-menu-item>
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Form-Builder"> </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "descriptionLbl" }}</span>
+      </span>
+    </button>
+    <button class="fx" mat-menu-item>
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Survey-Outline">
+        </mat-icon>
+        <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
+          "taskFilesLbl"
+        }}</span>
+        <span class="mat-view-menuitem-text" *ngIf="!isRootTask">{{
+          "subTaskFilesLbl"
+        }}</span>
+      </span>
+    </button>
+    <button class="fx" mat-menu-item>
+      <span class="mat-view-menuitem">
+        <mat-icon
+          [matBadge]="data.taskUpdatesCount"
+          [matBadgeHidden]="data.taskUpdatesCount < 1"
+          matBadgeSize="small"
+          class="icon-area icon-small icomoon Survey-Outline1 updates-count"
+        >
+        </mat-icon>
+        <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
+          "taskUpdatesLbl"
+        }}</span>
+        <span class="mat-view-menuitem-text" *ngIf="!isRootTask">{{
+          "subTaskUpdatesLbl"
+        }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      mat-menu-item
+      *ngIf="hasPermission && !data.parentTaskId && !isFilterApplied"
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Copy"> </mat-icon>
+        <span class="mat-view-menuitem-text">
+          {{ "duplicateTaskLbl" }}
+        </span>
+      </span>
+    </button>
+    <button class="fx" mat-menu-item *ngIf="hasPermission && isBoardOwner">
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Lock"> </mat-icon>
+        <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
+          "itemPermissionLbl"
+        }}</span>
+        <span class="mat-view-menuitem-text" *ngIf="!isRootTask">{{
+          "subItemPermissionLbl"
+        }}</span>
+      </span>
+    </button>
+
+    <button class="fx" mat-menu-item>
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon taskLogs"> </mat-icon>
+        <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
+          "viewTaskLogsLbl"
+        }}</span>
+        <span class="mat-view-menuitem-text" *ngIf="!isRootTask">{{
+          "viewSubTaskLogsLbl"
+        }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      mat-menu-item
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Process-Compliance-1">
+        </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "proofsLbl" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      mat-menu-item
+      *ngIf="hasPermission && !data.parentTaskId && !isFilterApplied"
+      [disabled]="data?.itemPermission?.permission === itemViewPermission"
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Delete-Outline">
+        </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "deleteLbl" }}</span>
+      </span>
+    </button>
+    <button
+      class="fx"
+      mat-menu-item
+      *ngIf="hasPermission && data.parentTaskId"
+      [disabled]="
+        data?.itemPermission?.permission === itemViewPermission &&
+        !isFilterApplied
+      "
+    >
+      <span class="mat-view-menuitem">
+        <mat-icon class="icon-area icon-small icomoon Delete-Outline">
+        </mat-icon>
+        <span class="mat-view-menuitem-text">{{ "deleteSubTaskLbl" }}</span>
+      </span>
+    </button>
+  </ng-template>
+</mat-menu>
