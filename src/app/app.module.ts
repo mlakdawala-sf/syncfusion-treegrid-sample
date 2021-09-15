@@ -41,22 +41,27 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BoardColumnAdapter } from './syncfusion-treegrid/services/board-column-adapter.service';
 import { GroupAdapter } from './syncfusion-treegrid/services/group-adapter.service';
 import { ConditionalFormattingDirective } from './syncfusion-treegrid/directives/conditional-formatting.directive';
+import { CheckBoxComponent } from '@syncfusion/ej2-angular-buttons';
+import { CheckboxTemplateComponent } from './templates/checkbox-template/checkbox-template.component';
+import { CountBoxComponent } from './syncfusion-treegrid/components/extra-badage/count-box.component';
 
 const components = [
   DateTemplateComponent,
   DateTimeTemplateComponent,
   CurrencyTemplateComponent,
-
+  // CheckBoxComponent,
+  CheckboxTemplateComponent,
   PercentageTemplateComponent,
   NumberTemplateComponent,
   DropdownTemplateComponent,
   StatusTemplateComponent,
   TaskLabelTemplateComponent,
   PriorityTemplateComponent,
+  // CountBoxComponent,
 ];
 const matModules = [
   MatSidenavModule,
-
+  MatMenuModule,
   MatCardModule,
   MatPaginatorModule,
   MatTableModule,
@@ -93,6 +98,10 @@ const matModules = [
   ],
   providers: [BoardColumnAdapter, GroupAdapter],
   bootstrap: [AppComponent],
-  exports: [ConditionalFormattingDirective],
+  exports: [
+    ConditionalFormattingDirective,
+    // CheckBoxComponent,
+    // CountBoxComponent,
+  ],
 })
 export class AppModule {}

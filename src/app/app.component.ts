@@ -134,16 +134,13 @@ export class AppComponent {
     this.columns = sampleColumns.map((t: any) =>
       this.colAdapterService.adaptToModel(t)
     );
-    // this.groups = sampleGroups.map((g: any) => {
-    //   this.gpAdapterService.adapModel(g);
-    // });
     this.groups = sampleGroups;
-    this.createColumnTemplateMap();
     this.createGroupColumnMap();
+    this.createColumnTemplateMap();
+
     this.columns.forEach((column) => {
       this.setColumnTemplate(column, this.columnTemplateMap);
     });
-    console.log(this.columns);
     this.setTreeGridProps();
     const data = this.getColumnFormats(this.columns);
     this.formats = data.formats;
@@ -159,7 +156,6 @@ export class AppComponent {
   createGroupColumnMap() {
     this.createGroupColumnMapT(
       this.groupColumnMap,
-      this.columns,
       this.textTemplate,
       this.headerTemplate
     );
@@ -175,19 +171,18 @@ export class AppComponent {
 
   createGroupColumnMapT(
     columnMap: Map<string, BoardColumn[]>,
-    columns: BoardColumn[],
+    // columns: BoardColumn[],
     template: NgModel,
     headerTemplate: NgModel
   ) {
-    columns = orderBy(columns, 'sequenceNumber', 'asc');
+    this.columns = orderBy(this.columns, 'sequenceNumber', 'asc');
     const columnWidth = '120';
     this.groups.forEach((group) => {
-      const columnArray = [...columns];
-      columns.unshift(
+      this.columns.unshift(
         new BoardColumn({
           boardId: 'id',
           columnType: 'text',
-          template,
+          template: this.textTemplate,
           editType: 'templateedit',
           field: 'name',
           id: 'name',
@@ -209,7 +204,7 @@ export class AppComponent {
           },
         })
       );
-      columns.unshift(
+      this.columns.unshift(
         new BoardColumn({
           visible: false,
           columnType: 'text',
@@ -218,6 +213,7 @@ export class AppComponent {
           width: '0',
         })
       );
+      const columnArray = [...this.columns];
       columnMap.set(group.id, columnArray);
     });
   }
@@ -346,6 +342,7 @@ export class AppComponent {
       } else {
         column.valueAccessor = this.customValueAccessor;
       }
+      column.template = columnTypeTemplateMap.get(columnType);
     } else {
       column.template = columnTypeTemplateMap.get(columnType);
     }

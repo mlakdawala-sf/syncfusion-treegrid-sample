@@ -1,0 +1,69 @@
+<ng-container *ngIf="!symbolType || symbolType === symbolBoxEnum.Checkbox">
+  <div class="app-checkbox fx">
+    <mat-checkbox
+      [(ngModel)]="data"
+      class="checkboxes"
+      [color]="theme"
+      (ngModelChange)="change($event)"
+      [formControl]="control"
+      [checked]="checked"
+      [required]="required"
+      [indeterminate]="indeterminate"
+      [labelPosition]="textPosition"
+      (change)="toggleCheckbox($event)"
+      [value]="value"
+      [disabled]="disabled"
+    >
+      <div class="fx-center-start">
+        <app-icon
+          *ngIf="isIconEnable"
+          [type]="iconType"
+          [iconName]="iconName"
+          [fontSize]="iconSize"
+          [iconPath]="iconPath"
+          [color]="iconColor"
+          [fontSet]="fontSet"
+        >
+        </app-icon>
+      </div>
+      <div
+        class="checkbox__label"
+        [ngClass]="{
+          'checkbox__label--checked': data || checked,
+          'checkbox__label--normal': !(data || checked),
+          'checkbox__label--disabled': disabled
+        }"
+        *ngIf="label && showPlaceHolder"
+        [style.font-size]="'1em'"
+      >
+        {{ label }}
+        <span class="gx-form-error" *ngIf="required && showRequiredMarker">
+          *</span
+        >
+      </div>
+    </mat-checkbox>
+  </div>
+</ng-container>
+<ng-container *ngIf="symbolType === symbolBoxEnum.Star">
+  <div class="star-box">
+    <em
+      [ngClass]="data ? 'filled-star-symbol' : 'star-symbol'"
+      class="icomoon icon-small symbol-icon no-condition"
+      (click)="toggleSymbolBox({checked: !data})"
+    ></em>
+  </div>
+</ng-container>
+<ng-container *ngIf="symbolType === symbolBoxEnum.Flag">
+  <div class="flag-box">
+    <em
+      [ngClass]="data ? 'filled-flag-1' : 'flag'"
+      class="icomoon icon-small symbol-icon no-condition"
+      (click)="toggleSymbolBox({checked: !data})"
+    ></em>
+  </div>
+</ng-container>
+<ng-container *ngIf="description?.length">
+  <div class="description">
+    <mat-hint>{{ description }}</mat-hint>
+  </div>
+</ng-container>

@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div *ngIf="icon && label">
+    <span class="{{ icon }} icomoon gen-icon"></span>
+  </div>
+  <span
+    class="box-headline {{ cssClass }}"
+    [ngClass]="icon ? 'lbl-ml' : ''"
+    *ngIf="label"
+    >{{ label }}</span
+  >
+  <span
+    class="count-box"
+    [matTooltip]="tooltip"
+    [matTooltipPosition]="'below'"
+    matTooltipClass="tooltip-below"
+    *ngIf="count"
+  >
+    +{{ count }}
+  </span>
+</div>

@@ -1,0 +1,105 @@
+@mixin flex-content($justify: center, $align: center, $direction: "row") {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+.app-checkbox {
+  height: 3em;
+  @include flex-content(flex-start, center, row);
+
+  ::ng-deep {
+    .mat-checkbox-layout {
+      display: inline-flex;
+    }
+
+    .mat-checkbox-frame {
+      background-color: #fff;
+      border: 0.185em solid #606060;
+      border-radius: 0.368em;
+      width: 24px;
+      height: 24px;
+    }
+
+    .mat-checkbox-disabled:not(.mat-checkbox-checked) .mat-checkbox-frame {
+      border: 0.184em solid #dfdfdf;
+      border-radius: 0.368em;
+    }
+
+    .mat-checkbox-inner-container {
+      height: 24px !important;
+      width: 24px !important;
+    }
+
+    .mat-checkbox-ripple {
+      left: calc(50% - 1.818em) !important;
+      top: calc(50% - 1.818em) !important;
+      height: 3.636em !important;
+      width: 3.636em !important;
+    }
+  }
+
+  .checkboxes {
+    margin-right: 1em;
+    padding-left: 0em;
+    flex: 1 1 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    max-width: 8%;
+  }
+}
+
+.bootstrap-checkbox {
+  width: fit-content;
+}
+
+.bootstrap-checkbox-label {
+  @include flex-content();
+}
+
+.bootstrap-checkbox-span {
+  margin: 0 0.462em;
+  width: 1.201em;
+  height: 1.201em;
+  // border: 1.201em solid #141a30;
+  border-radius: 0.277em;
+  @include flex-content();
+  font-size: 13pt;
+  cursor: pointer;
+}
+
+.bootstrap-checkbox-span-selected {
+  &:before {
+    content: "\2714";
+  }
+}
+
+.checkbox {
+  &__lable {
+    font-size: 1.077em;
+
+    &--checked {
+      color: #333333 !important;
+    }
+
+    &--normal {
+      color: #606060; // As per all lable
+      // color: #9c9c9c;
+    }
+
+    &--disabled {
+      color: #898989 !important;
+    }
+  }
+}
+.star-box,
+.flag-box {
+  cursor: pointer;
+}
+
+.description {
+  margin-left: 32px;
+  font-size: 10.5px;
+}

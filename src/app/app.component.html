@@ -57,6 +57,9 @@
   <div
     rpms-task-label-template
     [data]="data"
+    [maxGridDepth]="5" 
+    [activeFormattingRules]="[]"
+    [formats]="formats"
     class="cell-render-temp"
     [ngClass]="{
       'pl-0':
@@ -77,6 +80,15 @@
     rpms-date-template
     class="cell-render-temp"
     [ngClass]="data.column.collapse ? 'e-collapse' : 'column-value'"
+    [data]="data"
+  ></div>
+</ng-template>
+
+<ng-template #dropdownTemplate let-data>
+  <div
+    class="cell-render-temp"
+    [ngClass]="data.column.collapse ? 'e-collapse' : 'column-value'"
+    rpms-dropdown-template
     [data]="data"
   ></div>
 </ng-template>
@@ -121,12 +133,20 @@
   ></div>
 </ng-template>
 
-<!--Templates For Dropdown Type Column  -->
-<ng-template #dropdownTemplate let-data>
+<ng-template #peopleTemplate let-data>
   <div
+    rpms-people-template
     class="cell-render-temp"
     [ngClass]="data.column.collapse ? 'e-collapse' : 'column-value'"
-    rpms-dropdown-template
     [data]="data"
+  ></div>
+</ng-template>
+
+<ng-template #checkboxTemplate let-data>
+  <div
+    rpms-checkbox-template
+    [data]="data"
+    class="cell-render-temp"
+    [ngClass]="data.column.collapse ? 'e-collapse' : ''"
   ></div>
 </ng-template>

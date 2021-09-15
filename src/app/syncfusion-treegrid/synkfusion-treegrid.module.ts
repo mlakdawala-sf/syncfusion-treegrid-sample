@@ -19,6 +19,8 @@ import {
   TreeGridAllModule,
   RowDDService,
 } from '@syncfusion/ej2-angular-treegrid';
+import { CheckBoxComponent } from './components/check-box/check-box.component';
+import { CountBoxComponent } from './components/extra-badage/count-box.component';
 import { ConditionalFormattingService } from './services/conditional-formatting.service';
 import { GridEventService } from './services/grid-event.service';
 import { TaskAdapterService } from './services/task-adapter.service';
@@ -37,7 +39,11 @@ const synkfusionModules = [
 ];
 
 @NgModule({
-  declarations: [SynkfusionTreeGridComponent],
+  declarations: [
+    SynkfusionTreeGridComponent,
+    CheckBoxComponent,
+    CountBoxComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -62,6 +68,8 @@ const synkfusionModules = [
     SynkfusionTreeGridComponent,
     ...synkfusionModules,
     TreeGridAllModule,
+    CheckBoxComponent,
+    CountBoxComponent,
   ],
 })
 export class SynkFusionTreeGridModule {}

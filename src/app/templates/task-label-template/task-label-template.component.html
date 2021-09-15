@@ -82,9 +82,6 @@
 
 <mat-menu
   #taskOptions="matMenu"
-  [ngClass]="
-    data.parentTaskId && data.parentTaskId === data.i ? 'task-options' : ''
-  "
   class="main-board-menu-item"
   (closed)="data.active = false"
 >
