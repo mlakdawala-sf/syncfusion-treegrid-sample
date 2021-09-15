@@ -1,5 +1,22 @@
-<div *ngIf="columns?.length">
-  <rpms-treegrid [columns]="columns"></rpms-treegrid>
+<div #mainBoard>
+  <rpms-treegrid
+    *ngIf="columns?.length"
+    [maxRowsInViewPort]="maxRowsInViewPort"
+    [mainBoardHeight]="mainBoardHeight"
+    [groupId]="groups[0].id"
+    [boardId]="'id'"
+    [columns]="groupColumnMap.get(groups[0].id)"
+    [gridWidth]="groups[0].gridWidth"
+    [maxGridDepth]="5"
+    [dataSource]="flatTaskMap.get(groups[0].id)"
+    (updateTask)="updateTask($event)"
+    [editColumnHeader]="false"
+    parentIdMapping="parentTaskId"
+    idMapping="id"
+    [allowReordering]="true"
+    [rpmsConditionalFormatting]="[]"
+    [formatData]="formats"
+  ></rpms-treegrid>
 </div>
 
 <!--Templates For Status Type Column  -->

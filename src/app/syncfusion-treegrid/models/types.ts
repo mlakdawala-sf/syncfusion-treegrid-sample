@@ -1,15 +1,33 @@
+import { Format } from './conditional-formatting.model';
+
 export class Row {
-  column?: Column;
+  constructor(data: Partial<Row>) {
+    this.fieldValues = data?.fieldValues;
+    this.sequenceNumber = data?.sequenceNumber || 0;
+  }
   id: string;
+  name: string;
+  fieldValues?: { [key: string]: ColumnValue };
+  column: Column;
+  groupId?: string;
+  index?: number;
+  parentTaskId?: string;
+  sequenceNumber?: number;
+  expanded?: boolean;
+  active?: boolean;
+  subTasks?: Row[];
+  depth: number;
 }
 
 export class Column {
+  id: string;
+  name: string;
   columnType: string;
   headerText: string;
   isPrimaryKey: boolean;
   field: string;
   editType: string;
-
+  format: Format;
   allowEditing: boolean;
   width: string;
   textAlign: string;
@@ -20,6 +38,20 @@ export class Column {
   type: string;
   index?: number;
   metaData?: unknown;
+
+  constructor(data: Partial<Column>) {
+    this.columnType = data?.columnType;
+    this.field = data?.field;
+    this.template = data?.template;
+    this.editTemplate = data?.editTemplate;
+    this.headerText = data?.headerText;
+    this.customAttributes = data?.customAttributes;
+    this.allowEditing = data?.allowEditing;
+    this.headerTemplate = data?.headerTemplate;
+    this.width = data?.width;
+    this.type = data?.type;
+    this.isPrimaryKey = data?.isPrimaryKey;
+  }
 }
 
 export class ColumnValue {

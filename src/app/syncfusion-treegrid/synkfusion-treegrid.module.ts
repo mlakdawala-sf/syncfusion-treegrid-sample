@@ -19,9 +19,13 @@ import {
   TreeGridAllModule,
   RowDDService,
 } from '@syncfusion/ej2-angular-treegrid';
+import { ConditionalFormattingService } from './services/conditional-formatting.service';
+import { GridEventService } from './services/grid-event.service';
 import { TaskAdapterService } from './services/task-adapter.service';
 
 import { SynkfusionTreeGridComponent } from './syncfusion-treegrid.component';
+import { SyncfusionGenericUtilityService } from './utils/syncfusion-generic-utility.service';
+import { TreeGridUtilityService } from './utils/syncfusion-tree-grid-utility.service';
 
 const synkfusionModules = [
   NumericTextBoxAllModule,
@@ -49,6 +53,10 @@ const synkfusionModules = [
     VirtualScrollService,
     RowDDService,
     TaskAdapterService,
+    SyncfusionGenericUtilityService,
+    TreeGridUtilityService,
+    GridEventService,
+    ConditionalFormattingService,
   ],
   exports: [
     SynkfusionTreeGridComponent,

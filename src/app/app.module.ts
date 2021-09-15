@@ -38,6 +38,9 @@ import { TaskLabelTemplateComponent } from './templates/task-label-template/task
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { BoardColumnAdapter } from './syncfusion-treegrid/services/board-column-adapter.service';
+import { GroupAdapter } from './syncfusion-treegrid/services/group-adapter.service';
+import { ConditionalFormattingDirective } from './syncfusion-treegrid/directives/conditional-formatting.directive';
 
 const components = [
   DateTemplateComponent,
@@ -81,14 +84,15 @@ const matModules = [
   MatMenuModule,
 ];
 @NgModule({
-  declarations: [AppComponent, ...components],
+  declarations: [AppComponent, ...components, ConditionalFormattingDirective],
   imports: [
     BrowserModule,
     SynkFusionTreeGridModule,
     BrowserAnimationsModule,
     ...matModules,
   ],
-  providers: [],
+  providers: [BoardColumnAdapter, GroupAdapter],
   bootstrap: [AppComponent],
+  exports: [ConditionalFormattingDirective],
 })
 export class AppModule {}

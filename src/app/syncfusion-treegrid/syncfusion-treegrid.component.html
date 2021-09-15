@@ -1,5 +1,5 @@
 <ejs-treegrid
-  #treegrid
+  #grid
   [dataSource]="dataSource"
   [enableVirtualization]="true"
   idMapping="id"
@@ -8,5 +8,23 @@
   height="600"
   rowHeight="40"
   [columns]="columns"
+  [id]="'Group_' + this.groupId"
+  [gridLines]="'Both'"
+  (columnDrag)="columnDrag($event)"
+  (resizeStop)="resizeStop($event)"
+  (columnDrop)="columnDrop($event)"
+  (cellSave)="cellSave($event)"
+  (cellEdit)="cellEdit($event)"
+  (rowDataBound)="rowDataBound($event)"
+  (actionBegin)="actionBegin($event)"
+  (keyPressed)="keyPressed($event)"
+  (actionComplete)="actionComplete($event)"
+  [enableCollapseAll]="false"
+  (rowSelected)="rowSelected($event)"
+  (click)="internalClickEvent($event)"
+  (created)="created()"
+  (recordDoubleClick)="recordDoubleClick($event)"
+  (dataBound)="dataBound()"
+  (queryCellInfo)="customizeCell($event)"
 >
 </ejs-treegrid>
