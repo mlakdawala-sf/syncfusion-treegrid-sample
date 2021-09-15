@@ -70,20 +70,12 @@ export class SynkfusionTreeGridComponent
       newRowPosition: 'Below',
       mode: 'Cell',
     };
-    // if (this.dataSource.length === 0) {
-    //   dataSource();
-    // }
-    // this.dataSource = tasks.map((x: any) =>
-    //   this.taskAdapterService.adaptToModel(x)
-    // );
+   
   }
 
   protected _subscriptions: Subscription[] = [];
 
   ngOnDestroy() {
-    // this._columns = null;
-    // this.grid.dataSource = null;
-    // this.grid = null;
     this.clearAllSubscriptions();
   }
 
@@ -144,256 +136,6 @@ export class SynkfusionTreeGridComponent
     this.grid.grid.resizeSettings = { mode: 'Auto' };
   }
 
-  keyPressed(args: any) {
-    this.gridUtilityService.handleKeyPressed(args, this.grid);
-  }
-
-  private _columnDeletedRT(deletedColumn: {
-    id: string;
-    name: string;
-    description: string;
-    metaData: unknown;
-  }) {
-    const columnIndex = this.columns.findIndex(
-      (column) => column.id === deletedColumn.id
-    );
-    if (columnIndex !== -1) {
-      this.columns.splice(columnIndex, 1);
-    }
-    this.grid.refreshColumns();
-  }
-
-  private _callUpdateTask(
-    rowData: Row,
-    column: Column,
-    previousCellValue?: unknown,
-    previousValues?: Row,
-    reloadUI = false
-  ) {
-    // Check if Parent or child Edit
-
-    if (
-      // !isEqual(
-      //   previousValues?.fieldValues[column.field]?.value,
-      //   rowData?.fieldValues[column.field]?.value
-      // ) ||
-      this.initialFlag
-    ) {
-      this.initialFlag = false;
-
-      // if (delayedUpdateColumns?.includes(column.columnType)) {
-      setTimeout(() => {
-        this.updateTask.emit({
-          rowData,
-          column,
-          previousCellValue,
-          previousRowValue: previousValues,
-          groupId: this.groupId,
-          taskId: rowData.id,
-          reloadUI,
-        });
-      }, GRID_TIMEOUT);
-    } else {
-      this.updateTask.emit({
-        rowData,
-        column,
-        previousCellValue,
-        previousRowValue: previousValues,
-        groupId: this.groupId,
-        taskId: rowData.id,
-        reloadUI,
-      });
-      // }
-    }
-    if (this.grid.grid?.isEdit) {
-      this.grid.saveCell();
-    }
-  }
-
-  handleEnterKey(args: any) {
-    const keyCode = args.which || args.keyCode;
-    if (keyCode === 13) {
-      this.gridUtilityService.handleEnterKey(args);
-    }
-  }
-
-  // private _subscribeToColumnMessage() {
-  //   this._subscriptions.push(
-  //     this.columnMessageService
-  //       .getMessage()
-  //       .subscribe((message: ColumnMessage) => {
-  //         this._handleColumnMessage(message);
-  //       })
-  //   );
-  //   this._subscriptions.push(
-  //     this.notificationService.realTimeSubject.subscribe((message) => {
-  //       if (
-  //         message?.options?.boardId === this.boardId &&
-  //         message?.options?.type === NotificationEvents.ColumnDelete
-  //       ) {
-  //         this._columnDeletedRT(message.options.data);
-  //       }
-  //     })
-  //   );
-  // }
-
-  // private _subscribeToSortColumnMessage() {
-  //   this._subscriptions.push(
-  //     this.columnMessageService
-  //       .getMessage()
-  //       .subscribe((message: ColumnMessage) => {
-  //         this._handleSortColumnMessage(message);
-  //       })
-  //   );
-  // }
-
-  // private _handleSortColumnMessage(message: ColumnMessage) {
-  //   if (
-  //     message.messageType === ColumnMessageType.SortColumn &&
-  //     message?.messageMeta?.sort?.groupId === this.groupId
-  //   ) {
-  //     const { columnId, order } = message?.messageMeta?.sort;
-  //     if (order) {
-  //       this.grid.sortByColumn(columnId, order);
-  //     } else {
-  //       this.grid.clearSorting();
-  //     }
-  //   }
-  // }
-
-  // // sonarignore:start
-  // private _handleColumnMessage(message: ColumnMessage) {
-  //   if (this.groupId === message?.messageMeta?.rowData?.groupId) {
-  //     switch (message.messageType) {
-  //       case ColumnMessageType.SetRowValue:
-  //         this._setRowValueHandler(message);
-  //         break;
-  //       case ColumnMessageType.TaskDeleted:
-  //         this._deleteRecord(message?.messageMeta?.rowData);
-  //         break;
-  //       case ColumnMessageType.ExpandRow:
-  //         this.gridUtilityService.toggleExpand(
-  //           message.messageMeta.rowData,
-  //           this.grid,
-  //           message.messageMeta.rowData.expanded
-  //         );
-  //         break;
-  //       case ColumnMessageType.EndEdit:
-  //         this._handleTaskUpdate(message);
-  //         break;
-  //       case ColumnMessageType.RealtimeTaskAdd:
-  //         this._handleRealtimeTaskAdd(message);
-  //         break;
-  //       case ColumnMessageType.NavigateToTask:
-  //         this.gridUtilityService.navigateToTask(
-  //           this.grid,
-  //           message?.messageMeta?.rowData?.id,
-  //           this.dataSource
-  //         );
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   }
-
-  //   if (
-  //     message.messageType === ColumnMessageType.RefreshHeader &&
-  //     this.boardId === message.messageMeta.boardId
-  //   ) {
-  //     this.grid.refreshColumns();
-  //   } else if (message.messageType === ColumnMessageType.AfterTaskAdded) {
-  //     this._handleTaskAddition(message);
-  //   } else if (
-  //     message.messageType === ColumnMessageType.AddNestedTasks &&
-  //     message.addAction.groupId === this.groupId
-  //   ) {
-  //     this.addNestedRecord(message.addAction);
-  //   } else if (
-  //     message.messageType === ColumnMessageType.BulkDelete &&
-  //     message.deleteAction.groupId === this.groupId
-  //   ) {
-  //     for (const record of message.deleteAction.records) {
-  //       this._deleteRecord(record);
-  //     }
-  //   }
-  //   this._handleGridRefreshMessages(message);
-  // }
-  // // sonarignore:end
-
-  // private _handleGridRefreshMessages(message: ColumnMessage) {
-  //   if (message.messageType === ColumnMessageType.RefreshGrid) {
-  //     if (
-  //       this.boardId === message?.messageMeta?.boardId ||
-  //       this.groupId === message?.messageMeta?.groupId
-  //     ) {
-  //       this.grid.refresh();
-  //     }
-  //   }
-  // }
-
-  // private _setRowValueHandler(message: ColumnMessage) {
-  //   const index = (this.grid?.grid?.dataSource as Row[])?.findIndex(
-  //     (val) => val.id === message?.messageMeta?.rowData?.id
-  //   );
-  //   if (!Number.isFinite(message?.messageMeta?.rowData.depth) && index !== -1) {
-  //     const data = this.grid.grid.dataSource[index];
-  //     message.messageMeta.rowData.depth = data.depth;
-  //   }
-  //   this.grid.setRowData(
-  //     message?.messageMeta?.rowData[message.messageMeta?.primaryKey ?? 'id'],
-  //     message?.messageMeta?.rowData
-  //   );
-
-  //   if (index !== -1) {
-  //     this.grid.grid.dataSource[index] = message?.messageMeta?.rowData;
-  //   }
-  // }
-
-  // private _handleTaskUpdate(message: ColumnMessage) {
-  //   if (this.groupId === message?.messageMeta?.rowData?.groupId) {
-  //     const { rowData, column, previousRowValue, reloadUI } =
-  //       message.messageMeta;
-  //     this._callUpdateTask(rowData, column, null, previousRowValue, reloadUI);
-  //   }
-  // }
-
-  // private _handleTaskAddition(message: ColumnMessage) {
-  //   const addAction = message.addAction;
-  //   if (this.groupId === addAction?.groupId) {
-  //     this.lastAddedRecord.push(addAction);
-  //     this.addRecordRecursively();
-  //   }
-  // }
-
-  // private _handleRealtimeTaskAdd(message: ColumnMessage) {
-  //   const record = message?.messageMeta?.rowData as GenericTask;
-  //   // I want to disable cell editing.
-  //   const data: IAddRecord = {
-  //     record,
-  //     groupId: record.groupId,
-  //     editCell: false,
-  //   };
-  //   if (record.parentTaskId) {
-  //     data.taskIdToRefer = record.parentTaskId;
-  //     data.action = 'Child';
-  //   } else {
-  //     data.index = 0;
-  //   }
-  //   this.lastAddedRecord.push(data);
-  //   this.addRecordRecursively();
-  // }
-
-  // private _deleteRecord(rowData: AnyObject) {
-  //   this.grid.deleteRecord('id', rowData);
-  //   const row = this.gridUtilityService.getRow(
-  //     this.grid,
-  //     rowData.id,
-  //     rowData.groupId
-  //   );
-  //   if (row) {
-  //     this.grid.deleteRow(row as HTMLTableRowElement);
-  //   }
-  // }
 
   private _addRecordToGrid(data: IAddRecord) {
     this.grid.selectionSettings.persistSelection = true;
@@ -464,29 +206,6 @@ export class SynkfusionTreeGridComponent
   }
 
   cellSave(args: any /*CellSaveArgs*/) {
-    const column = args.column as unknown as Column;
-    const rowData = args.rowData as unknown as Row;
-    document.body.removeAttribute('grid-id');
-    // if (
-    //   [
-    //     ColumnTypesEnum.dependency,
-    //     ColumnTypesEnum.priority,
-    //     ColumnTypesEnum.status,
-    //     ColumnTypesEnum.timeline,
-    //     ColumnTypesEnum.dropdown,
-    //     ColumnTypesEnum.date,
-    //     ColumnTypesEnum.datetime,
-    //     ColumnTypesEnum.tag,
-    //   ].includes(column.columnType as ColumnTypesEnum)
-    // ) {
-    //   return;
-    // }
-    this._callUpdateTask(
-      rowData,
-      column,
-      args.previousValue,
-      this.previousData as Row
-    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -514,8 +233,7 @@ export class SynkfusionTreeGridComponent
     } else {
       this.previousData = cloneDeep(event.rowData);
     }
-    // const [grid] = $(event.cell).closest('.e-grid, .e-treegrid ');
-    // document.body.setAttribute('grid-id', grid.id);
+ 
   }
 
   actionBegin(event: any) {
