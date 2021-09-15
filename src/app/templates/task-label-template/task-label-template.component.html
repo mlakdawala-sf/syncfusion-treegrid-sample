@@ -1,9 +1,9 @@
-<mat-icon
+<em
   [class.active-menu-icon]="data.active"
   [matMenuTriggerFor]="taskOptions"
   aria-hidden="false"
   aria-label="Example home icon"
-  >home</mat-icon
+  >home</em
 >
 
 <span *ngIf="isGuestUser" class="icon-space-for-guest"></span>
@@ -31,15 +31,15 @@
   [class.active-task-icons]="data.active"
   class="text-right-1 task-icons-1 fx"
 >
-  <mat-icon
+  <em
     matBadgeSize="small"
     class="icomoon Survey-Outline updates-count file-icons-1 cursor-pointer"
     matTooltip="taskFilesLbl"
     matTooltipClass="tooltip-below"
     automation-id="main_board_task_files_count"
   >
-  </mat-icon>
-  <mat-icon
+  </em>
+  <em
     [matBadge]="data.taskUpdatesCount || undefined"
     matBadgeSize="small"
     class="icomoon Survey-Outline1 updates-count file-icons-1 cursor-pointer"
@@ -47,8 +47,8 @@
     matTooltipClass="tooltip-below"
     automation-id="main_board_task_updates_count"
   >
-  </mat-icon>
-  <mat-icon
+  </em>
+  <em
     [matBadge]="data.proofFilesCount || undefined"
     matBadgeSize="small"
     class="
@@ -62,23 +62,23 @@
     matTooltipClass="tooltip-below"
     automation-id="main_board_proof_files_count"
   >
-  </mat-icon>
+  </em>
 </div>
 
-<mat-icon
+<em
   *ngIf="
     data?.itemPermission?.permission === itemViewPermission &&
     data?.column?.field === 'name'
   "
   class="icon-area icon-small icomoon"
-></mat-icon>
+></em>
 
-<mat-icon
+<em
   *ngIf="subtaskCount > 0 && data?.column?.field === 'name'"
   (dblclick)="$event.stopPropagation()"
   class="icomoon cursor-pointer expand-icon"
   [ngClass]="data?.expanded ? 'ios_minus' : 'plus_small'"
-></mat-icon>
+></em>
 
 <mat-menu
   #taskOptions="matMenu"
@@ -93,8 +93,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon add-item-above">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon add-item-above"> </em>
         <span class="mat-view-menuitem-text">{{ "addItemAboveLbl" }}</span>
       </span>
     </button>
@@ -105,8 +104,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon add-item-below">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon add-item-below"> </em>
         <span class="mat-view-menuitem-text">{{ "addItemBelowLbl" }}</span>
       </span>
     </button>
@@ -117,7 +115,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon addSubtask"> </mat-icon>
+        <em class="icon-area icon-small icomoon addSubtask"> </em>
         <span class="mat-view-menuitem-text">{{ "addSubItemLbl" }}</span>
       </span>
     </button>
@@ -128,7 +126,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Cut"> </mat-icon>
+        <em class="icon-area icon-small icomoon Cut"> </em>
         <span class="mat-view-menuitem-text">{{ "cut" }}</span>
       </span>
     </button>
@@ -139,7 +137,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Pie"> </mat-icon>
+        <em class="icon-area icon-small icomoon Pie"> </em>
         <span class="mat-view-menuitem-text">{{ "copy" }}</span>
       </span>
     </button>
@@ -150,7 +148,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Paste"> </mat-icon>
+        <em class="icon-area icon-small icomoon Paste"> </em>
         <span class="mat-view-menuitem-text">{{ "pasteBelow" }}</span>
       </span>
     </button>
@@ -170,7 +168,7 @@
       automation-id="main_board_outdent_item"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Improvement"> </mat-icon>
+        <em class="icon-area icon-small icomoon Improvement"> </em>
         <span class="mat-view-menuitem-text">{{ "convertToItemLbl" }}</span>
       </span>
     </button>
@@ -181,21 +179,19 @@
       mat-menu-item
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon convertSubItem">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon convertSubItem"> </em>
         <span class="mat-view-menuitem-text">{{ "indentItemLbl" }}</span>
       </span>
     </button>
     <button *ngIf="hasPermission" class="fx" mat-menu-item>
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Form-Builder"> </mat-icon>
+        <em class="icon-area icon-small icomoon Form-Builder"> </em>
         <span class="mat-view-menuitem-text">{{ "descriptionLbl" }}</span>
       </span>
     </button>
     <button class="fx" mat-menu-item>
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Survey-Outline">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon Survey-Outline"> </em>
         <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
           "taskFilesLbl"
         }}</span>
@@ -206,13 +202,13 @@
     </button>
     <button class="fx" mat-menu-item>
       <span class="mat-view-menuitem">
-        <mat-icon
+        <em
           [matBadge]="data.taskUpdatesCount"
           [matBadgeHidden]="data.taskUpdatesCount < 1"
           matBadgeSize="small"
           class="icon-area icon-small icomoon Survey-Outline1 updates-count"
         >
-        </mat-icon>
+        </em>
         <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
           "taskUpdatesLbl"
         }}</span>
@@ -228,7 +224,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Copy"> </mat-icon>
+        <em class="icon-area icon-small icomoon Copy"> </em>
         <span class="mat-view-menuitem-text">
           {{ "duplicateTaskLbl" }}
         </span>
@@ -236,7 +232,7 @@
     </button>
     <button class="fx" mat-menu-item *ngIf="hasPermission && isBoardOwner">
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Lock"> </mat-icon>
+        <em class="icon-area icon-small icomoon Lock"> </em>
         <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
           "itemPermissionLbl"
         }}</span>
@@ -248,7 +244,7 @@
 
     <button class="fx" mat-menu-item>
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon taskLogs"> </mat-icon>
+        <em class="icon-area icon-small icomoon taskLogs"> </em>
         <span class="mat-view-menuitem-text" *ngIf="isRootTask">{{
           "viewTaskLogsLbl"
         }}</span>
@@ -263,8 +259,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Process-Compliance-1">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon Process-Compliance-1"> </em>
         <span class="mat-view-menuitem-text">{{ "proofsLbl" }}</span>
       </span>
     </button>
@@ -275,8 +270,7 @@
       [disabled]="data?.itemPermission?.permission === itemViewPermission"
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Delete-Outline">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon Delete-Outline"> </em>
         <span class="mat-view-menuitem-text">{{ "deleteLbl" }}</span>
       </span>
     </button>
@@ -290,8 +284,7 @@
       "
     >
       <span class="mat-view-menuitem">
-        <mat-icon class="icon-area icon-small icomoon Delete-Outline">
-        </mat-icon>
+        <em class="icon-area icon-small icomoon Delete-Outline"> </em>
         <span class="mat-view-menuitem-text">{{ "deleteSubTaskLbl" }}</span>
       </span>
     </button>
