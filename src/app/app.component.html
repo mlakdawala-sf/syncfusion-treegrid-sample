@@ -4,27 +4,29 @@
     [attr.current-group]="group.id"
   >
     <div *ngIf="columns && columns.length" class="mb-16">
-      <rpms-treegrid
-        [maxRowsInViewPort]="maxRowsInViewPort"
-        [mainBoardHeight]="mainBoardHeight"
-        [groupId]="group.id"
-        [boardId]="'id'"
-        [columns]="groupColumnMap.get(group.id)"
-        [gridWidth]="group.gridWidth"
-        [maxGridDepth]="maxGridDepth"
-        [dataSource]="flatTaskMap.get(group.id)"
-        (updateTask)="updateTask($event)"
-        [editColumnHeader]="editColumnHeader"
-        (updateColumnWidth)="updateColumnWidth($event)"
-        (reorderColumn)="reorderColumn($event)"
-        (moveTaskToGroup)="moveTaskToGroupViaMenu($event)"
-        parentIdMapping="parentTaskId"
-        idMapping="id"
-        [hasPermission]="hasPermission"
-        [allowReordering]="!isGuestUser"
-        [rpmsConditionalFormatting]="[]"
-        [formatData]="formats"
-      ></rpms-treegrid>
+      <app-accordian>
+        <rpms-treegrid
+          [maxRowsInViewPort]="maxRowsInViewPort"
+          [mainBoardHeight]="mainBoardHeight"
+          [groupId]="group.id"
+          [boardId]="'id'"
+          [columns]="groupColumnMap.get(group.id)"
+          [gridWidth]="group.gridWidth"
+          [maxGridDepth]="maxGridDepth"
+          [dataSource]="flatTaskMap.get(group.id)"
+          (updateTask)="updateTask($event)"
+          [editColumnHeader]="editColumnHeader"
+          (updateColumnWidth)="updateColumnWidth($event)"
+          (reorderColumn)="reorderColumn($event)"
+          (moveTaskToGroup)="moveTaskToGroupViaMenu($event)"
+          parentIdMapping="parentTaskId"
+          idMapping="id"
+          [hasPermission]="hasPermission"
+          [allowReordering]="!isGuestUser"
+          [rpmsConditionalFormatting]="[]"
+          [formatData]="formats"
+        ></rpms-treegrid>
+      </app-accordian>
     </div>
   </div>
 </div>
