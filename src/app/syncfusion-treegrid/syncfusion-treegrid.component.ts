@@ -70,7 +70,6 @@ export class SynkfusionTreeGridComponent
       newRowPosition: 'Below',
       mode: 'Cell',
     };
-   
   }
 
   protected _subscriptions: Subscription[] = [];
@@ -135,7 +134,6 @@ export class SynkfusionTreeGridComponent
   ngAfterViewInit() {
     this.grid.grid.resizeSettings = { mode: 'Auto' };
   }
-
 
   private _addRecordToGrid(data: IAddRecord) {
     this.grid.selectionSettings.persistSelection = true;
@@ -205,8 +203,7 @@ export class SynkfusionTreeGridComponent
     this.toolTip.emit();
   }
 
-  cellSave(args: any /*CellSaveArgs*/) {
-  }
+  cellSave(args: any /*CellSaveArgs*/) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -233,14 +230,13 @@ export class SynkfusionTreeGridComponent
     } else {
       this.previousData = cloneDeep(event.rowData);
     }
- 
   }
 
   actionBegin(event: any) {
     this.syncfusionUtilityService.onActionBegin(event);
-    if (event.requestType === ACTION_REQUEST_TYPES.VIRTUAL_SCROLL) {
-      this.showSpinner = true;
-    }
+    // if (event.requestType === ACTION_REQUEST_TYPES.VIRTUAL_SCROLL) {
+    //   this.showSpinner = true;
+    // }
   }
 
   rowDataBound(event: any) {

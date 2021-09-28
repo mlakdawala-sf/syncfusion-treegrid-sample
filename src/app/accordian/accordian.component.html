@@ -1,0 +1,284 @@
+<ejs-accordion #element>
+  <e-accordionitems>
+    <e-accordionitem [(expanded)]="isExpanded" (created)="created()">
+      <ng-template #header>
+        <div class="group-header-wrapper">
+          <div class="group-header-container">
+            <div class="group-icon-container" (click)="disableEvent($event)">
+              <span class="round-dot"> </span>
+            </div>
+            <div
+              class="group-text"
+              (click)="toggleEditMode()"
+              *ngIf="!editMode"
+            >
+              Group
+            </div>
+
+            <div class="count">{{ taskCount }}</div>
+          </div>
+          <div class="hdr-right">
+            <input-button
+              *ngIf="hasEditPermission && !isGroupBasedColumn"
+              type="icomoon"
+              icomoonClass="Plus"
+              tooltip="{{ 'addRowLbl' }}"
+              (clickButton)="addTaskEvent()"
+            ></input-button>
+            <input-button
+              *ngIf="hasEditPermission && isGroupBasedColumn"
+              type="icomoon"
+              icomoonClass="Plus"
+              [matMenuTriggerFor]="addMenu"
+            ></input-button>
+            <input-button
+              class="group-header-icons"
+              *ngIf="hasEditPermission"
+              type="icomoon"
+              icomoonClass="Copy-Outline"
+              class="acc-header-icon"
+              tooltip="Duplicate this Group"
+              [disabled]="isGroupDuplicating"
+              (clickButton)="duplicateGroup()"
+            ></input-button>
+            <input-button
+              *ngIf="hasEditPermission"
+              type="icomoon"
+              icomoonClass="move-to-board"
+              class="acc-header-icon"
+              tooltip="Move Group to Board"
+            ></input-button>
+            <input-button
+              *ngIf="hasEditPermission"
+              type="icomoon"
+              icomoonClass="Delete-Outline"
+              class="acc-header-icon"
+              tooltip="Delete"
+            ></input-button>
+            <input-button
+              *ngIf="hasEditPermission"
+              type="icomoon"
+              icomoonClass="Vertical-Dots"
+              class="acc-header-icon"
+              #groupOptionsTrigger="matMenuTrigger"
+              [matMenuTriggerFor]="groupOptions"
+              (click)="openMenu($event, groupOptionsTrigger, groupOptions)"
+            >
+            </input-button>
+            <mat-menu #groupOptions="matMenu">
+              <button
+                mat-menu-item
+                class="group-option"
+                *ngIf="hasEditPermission && !isGroupBasedColumn"
+                (click)="addTaskEvent()"
+              >
+                <mat-icon class="icomoon Plus"></mat-icon
+                ><span>{{ "addRowLbl" }}</span>
+              </button>
+              <button
+                mat-menu-item
+                class="group-option"
+                *ngIf="hasEditPermission && isGroupBasedColumn"
+                [matMenuTriggerFor]="addMenu"
+              >
+                <mat-icon class="icomoon Plus"></mat-icon
+                ><span>{{ "addNewLbl" }}</span>
+              </button>
+              <button
+                fxLayout="row"
+                mat-menu-item
+                [matMenuTriggerFor]="moreActions"
+                #moreActionsMenuTrigger="matMenuTrigger"
+                class="group-option"
+              >
+                <div fxFlex fxLayoutAlign="start center">
+                  <span>
+                    <mat-icon class="icomoon dot icon-small"></mat-icon>
+                  </span>
+                  <span>{{ "moreActionsLbl" }}</span>
+                </div>
+                <mat-icon
+                  fxFlex
+                  fxLayoutAlign="end"
+                  [ngClass]="
+                    moreActionsMenuTrigger.menuOpen
+                      ? 'Chevron-Down'
+                      : 'Chevron-Right'
+                  "
+                  class="icomoon right-arrow-icon icon-small mr-0"
+                ></mat-icon>
+              </button>
+              <button
+                mat-menu-item
+                class="group-option"
+                *ngIf="hasEditPermission"
+                [disabled]="isGroupDuplicating"
+                (click)="duplicateGroup()"
+              >
+                <mat-icon class="icomoon Copy-Outline"></mat-icon
+                ><span>{{ "duplicateGroupLbl" }}</span>
+              </button>
+              <button
+                mat-menu-item
+                class="group-option"
+                *ngIf="hasEditPermission"
+              >
+                <mat-icon class="icomoon move-to-board"></mat-icon
+                ><span>{{ "moveToBoardLbl" }}</span>
+              </button>
+              <button mat-menu-item class="group-option">
+                <mat-icon class="icomoon Copy-Outline"></mat-icon
+                ><span>{{ "copyToBoardLbl" }}</span>
+              </button>
+              <button mat-menu-item class="group-option">
+                <mat-icon class="icomoon Form"></mat-icon
+                ><span>{{ "formLbl" }}</span>
+              </button>
+              <button mat-menu-item class="group-option">
+                <mat-icon class="icomoon Delete-Outline"></mat-icon
+                ><span>{{ "deleteGroupLbl" }}</span>
+              </button>
+              <mat-menu
+                #moreActions="matMenu"
+                class="main-board-menu-item more-actions"
+              >
+                <button
+                  class="capitalize"
+                  mat-menu-item
+                  (click)="publish.emit()"
+                >
+                  {{ "publish" }}
+                </button>
+                <button
+                  *ngIf="published"
+                  class="capitalize"
+                  mat-menu-item
+                  (click)="unpublish.emit()"
+                >
+                  {{ "unpublish" }}
+                </button>
+              </mat-menu>
+            </mat-menu>
+            <mat-menu #addMenu="matMenu" class="add-menu">
+              <button mat-menu-item (click)="addTaskEvent()">
+                {{ "addRowLbl" }}
+              </button>
+              <button
+                class="flex-space-between-center"
+                mat-menu-item
+                [matMenuTriggerFor]="columnItemsActions"
+                #columnItemsMenuTrigger="matMenuTrigger"
+              >
+                {{ "columnItemsLbl" }}
+                <mat-icon
+                  [ngClass]="
+                    columnItemsMenuTrigger.menuOpen
+                      ? 'Chevron-Down'
+                      : 'Chevron-Right'
+                  "
+                  class="icomoon icon-small column-item-icon"
+                ></mat-icon>
+              </button>
+            </mat-menu>
+            <mat-menu #columnItemsActions="matMenu" class="column-item">
+              <ng-container *ngFor="let item of columns">
+                <div style="display: flex; flex-direction: row">
+                  <ng-container
+                    *ngTemplateOutlet="inner; context: { item: item[0] }"
+                  ></ng-container>
+                  <ng-container
+                    *ngTemplateOutlet="inner; context: { item: item[1] }"
+                  ></ng-container>
+                </div>
+              </ng-container>
+            </mat-menu>
+            <ng-template #collapseGroup>
+              <input-button
+                type="icomoon"
+                hoverColor="#9c9c9c"
+                icomoonClass="arrow_up"
+                class="acc-header-icon"
+                #collapseMenuTrigger="matMenuTrigger"
+                [matMenuTriggerFor]="emptyMatMenu"
+                (click)="
+                  openMenu($event, collapseMenuTrigger, collapseExpandOptions)
+                "
+              ></input-button>
+            </ng-template>
+            <input-button
+              type="icomoon"
+              hoverColor="#9c9c9c"
+              icomoonClass="arrow_down"
+              class="acc-header-icon"
+              #expandMenuTrigger="matMenuTrigger"
+              [matMenuTriggerFor]="emptyMatMenu"
+              (click)="
+                openMenu($event, expandMenuTrigger, collapseExpandOptions)
+              "
+              *ngIf="!isExpanded; else collapseGroup"
+            ></input-button>
+            <mat-menu #emptyMatMenu="matMenu"> </mat-menu>
+            <mat-menu #collapseExpandOptions="matMenu">
+              <button (click)="toggleGroupState()" fxLayout="row" mat-menu-item>
+                <div class="mat-view-menuitem">
+                  <span *ngIf="isExpanded">
+                    <mat-icon
+                      class="icomoon expandcollapse icon-small"
+                    ></mat-icon>
+                  </span>
+                  <span *ngIf="!isExpanded">
+                    <mat-icon class="icomoon append icon-small"></mat-icon>
+                  </span>
+                  <span *ngIf="isExpanded" class="mat-view-menuitem-text">{{
+                    "collapseGroupLbl"
+                  }}</span>
+                  <span *ngIf="!isExpanded" class="mat-view-menuitem-text">{{
+                    "expandGroupLbl"
+                  }}</span>
+                </div>
+              </button>
+              <button
+                (click)="expandAllGroups()"
+                *ngIf="!showCollapseAll"
+                fxLayout="row"
+                mat-menu-item
+              >
+                <div class="mat-view-menuitem">
+                  <span>
+                    <mat-icon class="icomoon append icon-small"></mat-icon>
+                  </span>
+                  <span class="mat-view-menuitem-text">{{
+                    "expandAllGroupsLbl"
+                  }}</span>
+                </div>
+              </button>
+              <button
+                (click)="collapseAllGroups()"
+                *ngIf="showCollapseAll"
+                fxLayout="row"
+                mat-menu-item
+              >
+                <div class="mat-view-menuitem">
+                  <span>
+                    <mat-icon
+                      class="icomoon expandcollapse icon-small"
+                    ></mat-icon>
+                  </span>
+                  <span class="mat-view-menuitem-text">{{
+                    "collapseAllGroupsLbl"
+                  }}</span>
+                </div>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #content>
+        <ng-content></ng-content>
+      </ng-template>
+    </e-accordionitem>
+  </e-accordionitems>
+</ejs-accordion>
+<ng-template #inner let-item="item">
+  <button fxLayout="row" mat-menu-item (click)="addColumn(item)"></button>
+</ng-template>

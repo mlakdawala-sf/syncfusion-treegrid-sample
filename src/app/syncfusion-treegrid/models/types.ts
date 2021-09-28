@@ -38,7 +38,7 @@ export class Column {
   type: string;
   index?: number;
   metaData?: unknown;
-
+  disableHtmlEncode: boolean;
   constructor(data: Partial<Column>) {
     this.columnType = data?.columnType;
     this.field = data?.field;

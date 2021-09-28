@@ -1,4 +1,348 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.rpms-grid-container {
+  .e-treegrid .e-gridcontent .e-content .e-rowcell.e-dragborder-above {
+    box-shadow: none;
+    position: relative;
+    z-index: 5;
+    border-top: 2px solid pink !important;
+  }
+
+  .e-treegrid .e-gridcontent .e-content .e-rowcell.e-dragborder-below {
+    box-shadow: none;
+    position: relative;
+    z-index: 5;
+    border-bottom: 2px solid pink !important;
+  }
+
+  .e-treegrid .e-gridheader .e-firstrow-dragborder,
+  .e-grid.e-rtl .e-gridheader .e-firstrow-dragborder,
+  .e-treegrid .e-gridcontent .e-lastrow-dragborder,
+  .e-grid.e-rtl .e-gridcontent .e-lastrow-dragborder {
+    display: none !important;
+  }
+
+  .e-row {
+    .e-dragborder {
+      box-shadow: none !important;
+    }
+  }
+
+  .e-treegrid {
+    border: 0 none !important;
+    min-width: 100% !important;
+
+    .e-gridheader {
+      border-top: 0 none;
+      border-bottom-color: grey;
+    }
+    .e-highColor {
+      background: #df0101;
+    }
+    .e-mediumColor {
+      background: #f59600;
+    }
+    .e-lowColor {
+      background: #4dafff;
+    }
+    .e-unplannedColor {
+      background: #d74ce6;
+    }
+    .e-inprogressColor {
+      background: #f59600;
+    }
+    .e-doneColor {
+      background: #27ae60;
+    }
+    .e-timeline {
+      font-size: 12px;
+      background: #001d6d;
+    }
+    .grid-icon {
+      width: 22px;
+      height: 22px;
+      vertical-align: middle;
+    }
+    .e-date-column {
+      font-size: 14px;
+      line-height: 24px;
+      color: black;
+    }
+    .e-reorderindicate {
+      background-color: #ddf0ff;
+    }
+    td.e-editedbatchcell {
+      background-color: transparent !important;
+    }
+    .e-cloneproperties.e-draganddrop {
+      position: fixed !important;
+      cursor: pointer !important;
+      min-width: calc(100% - 360px);
+      overflow: hidden;
+
+      table {
+        width: 100% !important;
+      }
+    }
+    .e-columnheader {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #333333;
+    }
+    .e-rowcell {
+      font-size: 14px;
+      line-height: 57px;
+      color: black;
+    }
+
+    .e-customCell {
+      width: 100%;
+      border-radius: 16px;
+      padding: 5px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .e-stuckColor {
+      background: #df0101;
+    }
+    .e-acrdn-panel {
+      padding: 0 13px;
+    }
+    .default-cell-selection {
+      min-height: 58px !important;
+      height: 58px !important;
+    }
+    td.e-active {
+      background-color: lightgrey !important;
+    }
+    td.e-focused {
+      box-shadow: none !important;
+    }
+    .default-cell-selection:first-child,
+    .top-cell-selection:first-child,
+    .bottom-cell-selection:first-child,
+    .middle-cell-selection:first-child {
+      border-left: 2px dashed blue !important;
+    }
+    .default-cell-selection:last-child,
+    .top-cell-selection:last-child,
+    .bottom-cell-selection:last-child,
+    .middle-cell-selection:last-child {
+      border-right: 2px dashed blue !important;
+    }
+    .top-cell-selection {
+      border-top: 2px dashed blue !important;
+    }
+    .bottom-cell-selection {
+      border-bottom: 2px dashed blue !important;
+    }
+
+    .e-row[aria-selected="true"] .e-customizedExpandcell {
+      background-color: #fff;
+    }
+    .e-detailrow {
+      .e-detailcell {
+        padding: 0px;
+        .e-grid td.e-active {
+          background-color: pink !important;
+        }
+        .e-treegrid td.e-focused {
+          box-shadow: none !important;
+        }
+      }
+    }
+    .e-detailindentcell {
+      display: none;
+      border: 0px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .e-emptyrow {
+      visibility: hidden !important;
+    }
+
+    .e-grid .e-emptyrow td {
+      line-height: 1px !important;
+      padding: 0 !important;
+    }
+
+    .e-icon-grightarrow::before,
+    .e-grid-menu .e-icon-grightarrow::before {
+      content: "";
+    }
+    .e-icon-gdownarrow::before,
+    .e-grid-menu .e-icon-gdownarrow::before {
+      content: "";
+    }
+
+    .e-detailrowexpand {
+      pointer-events: none;
+    }
+
+    .e-spinner-pane {
+      display: none !important;
+    }
+    .sort-action {
+      font-size: 23px;
+      color: #9c9c9c;
+      &.arrow_up1,
+      &.arrow_down1 {
+        color: pink;
+        font-size: 14px;
+      }
+    }
+    .sorting-block {
+      display: none;
+      cursor: pointer;
+    }
+    .e-headercell {
+      &:hover .sorting-block {
+        display: block;
+      }
+    }
+    tr.e-row.view-item-permission {
+      .e-rowcell .column-value {
+        cursor: default;
+        opacity: 0.5;
+      }
+    }
+    tr.e-row.edit-off {
+      .e-rowcell .column-value {
+        cursor: default;
+        opacity: 0.5;
+      }
+    }
+    td.e-detailrowexpand[style] {
+      width: 0px !important;
+    }
+
+    td.e-detailrowcollapse[style] {
+      width: 0px !important;
+    }
+
+    col.e-detail-intent[style] {
+      width: 0px !important;
+    }
+    div.e-icon-grightarrow[style] {
+      width: 0px !important;
+    }
+    div.e-icon-gdownarrow[style] {
+      width: 0px !important;
+    }
+    .e-row td:nth-child(3),
+    .e-detailrow td:nth-child(2) .e-gridcontent,
+    .e-detailrow td:nth-child(2) .e-gridcontent .e-content,
+    .e-detailrow td:nth-child(2) .e-gridcontent .e-content td:nth-child(1) {
+      overflow: visible !important;
+    }
+    .e-gridheader tr:first-child th:nth-child(2),
+    td.e-rowcell.e-templatecell.e-detailrowvisible {
+      border-right: 1px solid grey !important;
+    }
+
+    .e-detailrow .e-detailcell .menu-options {
+      left: 0px !important;
+    }
+    .e-row:hover .menu-options {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .menu-options {
+      position: relative;
+      font-size: 14px;
+    }
+    .flex-inherit {
+      flex: inherit !important;
+      .box-headline {
+        max-width: calc(100% + 15px);
+        width: auto;
+      }
+    }
+
+    .e-row {
+      .e-rowcell:nth-child(2) {
+        border-right-width: 1px;
+      }
+      .e-rowcell {
+        &:first-child {
+          .task-name-text {
+            justify-content: flex-start;
+          }
+        }
+
+        .task-name-text {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start !important;
+
+          .status {
+            height: 11px;
+            width: 11px;
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 50%;
+            margin-right: 12px;
+            margin-top: -3px;
+          }
+        }
+        .select-box {
+          .mat-select-value-text {
+            font-size: 12px;
+            line-height: 20px;
+            color: black;
+            .status {
+              height: 11px;
+              width: 11px;
+              margin-right: 12px;
+            }
+          }
+        }
+      }
+      .e-detailrowcollapse,
+      .e-detailrowexpand,
+      .e-customizedExpandcell {
+        border-color: grey;
+        border-top: 1px solid grey;
+      }
+    }
+    .e-treegrid .e-gridheader .e-sortfilter .e-headercelldiv {
+      padding-right: 0px !important;
+    }
+
+    .e-headercelldiv {
+      text-align: left !important;
+    }
+  }
+  .e-grid.e-default tr.e-row > td:first-child {
+    position: relative;
+  }
+
+  .e-grid.e-default.e-bothlines {
+    .e-headercell,
+    .e-rowcell {
+      border-left-width: 0 !important;
+      text-align: left !important;
+      border-color: grey;
+
+      &:first-child {
+        border-right-width: 1px;
+      }
+    }
+  }
+  .e-grid.e-default.e-bothlines .e-headercell {
+    &:hover {
+      background-color: red;
+    }
+  }
+}

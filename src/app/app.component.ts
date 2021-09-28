@@ -1,15 +1,13 @@
 import {
-  ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
   TemplateRef,
   ViewChild,
   ViewChildren,
-  ViewContainerRef,
 } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { cloneDeep, orderBy } from 'lodash';
+import { sampleColumns, sampleGroups } from './syncfusion-treegrid/data';
 import { BoardColumn } from './syncfusion-treegrid/models/board-columns.model';
 import {
   ColumnTypesEnum,
@@ -19,13 +17,8 @@ import {
 } from './syncfusion-treegrid/models/conditional-formatting.model';
 import { GenericTask } from './syncfusion-treegrid/models/generic-task.model';
 import { BoardColumnAdapter } from './syncfusion-treegrid/services/board-column-adapter.service';
-import { GroupAdapter } from './syncfusion-treegrid/services/group-adapter.service';
 import { TaskAdapterService } from './syncfusion-treegrid/services/task-adapter.service';
-import {
-  sampleColumns,
-  sampleGroups,
-  sampleTasks,
-} from './syncfusion-treegrid/tasks';
+import { sampleTasks } from './syncfusion-treegrid/tasks';
 
 const NAME_COLUMN_WIDTH = 370;
 const ROW_HEIGHT = 40;
@@ -42,6 +35,10 @@ export const TEXT_COLUMN_TYPES: ColumnTypesEnum[] = [
   ColumnTypesEnum.datetime,
   ColumnTypesEnum.date,
   ColumnTypesEnum.percentage,
+];
+export const ALLOWED_HTML_COLUMN_TYPES: ColumnTypesEnum[] = [
+  ColumnTypesEnum.status,
+  ColumnTypesEnum.priority,
 ];
 
 @Component({
@@ -61,12 +58,8 @@ export class AppComponent {
   flatTaskMap = new Map<string, GenericTask[]>();
 
   constructor(
-    private readonly cd: ChangeDetectorRef,
     private readonly taskAdapterService: TaskAdapterService,
-    private readonly colAdapterService: BoardColumnAdapter,
-    private readonly gpAdapterService: GroupAdapter,
-    private readonly viewContainerRef: ViewContainerRef,
-    private readonly resolver: ComponentFactoryResolver
+    private readonly colAdapterService: BoardColumnAdapter
   ) {}
 
   @ViewChild('headerTemplate', { read: TemplateRef })
@@ -125,6 +118,10 @@ export class AppComponent {
       maxRowsInViewPort = MIN_ROWS;
     }
     this.maxRowsInViewPort = maxRowsInViewPort;
+  }
+
+  identify(index: any, item: any) {
+    return item.id;
   }
 
   initDatasource() {
@@ -336,24 +333,67 @@ export class AppComponent {
     columnTypeTemplateMap: Map<string, NgModel>
   ) {
     const { columnType } = column;
-    if (TEXT_COLUMN_TYPES.includes(columnType as ColumnTypesEnum)) {
-      if (column.collapse) {
-        column.valueAccessor = this.collapsedCustomValueAccessor;
-      } else {
-        column.valueAccessor = this.customValueAccessor;
+    this.setColumnTemplateAndAccessor(
+      column,
+      columnTypeTemplateMap,
+      columnType as ColumnTypesEnum
+    );
+  }
+
+  getStatusHtmlValue(field: string, data: GenericTask, column: BoardColumn) {
+    const value = data.fieldValues[column?.field]?.value?.displayValue;
+    if (!value) {
+      return '';
+    }
+
+    return `<span class="template-label-text">
+              <span
+              class="status-color"
+              style="color:red"
+              >&#11044;</span>
+              ${value}
+            </span>`;
+  }
+
+  getPriorityHtmlValue(field: string, data: GenericTask, column: BoardColumn) {
+    const value = data.fieldValues[column?.field]?.value?.displayValue;
+    if (!value) {
+      return '';
+    }
+    const color = data.fieldValues[column.field]?.value?.color;
+    const bgColor = data.fieldValues[column.field]?.value?.bgColor;
+    return `<span
+            class="template-label-text e-customCell"
+            style="background-color:${bgColor}">
+              <label
+                class="task-name-inner-text cursor-pointer"
+                style="color:${color}"
+                >${value}</label>
+            </span>`;
+  }
+
+  setColumnTemplateAndAccessor(
+    column: BoardColumn,
+    columnTypeTemplateMap: Map<string, NgModel>,
+    columnType: ColumnTypesEnum
+  ) {
+    if (ALLOWED_HTML_COLUMN_TYPES.includes(columnType)) {
+      column.disableHtmlEncode = false;
+      switch (column.columnType) {
+        case ColumnTypesEnum.status:
+          column.valueAccessor = this.getStatusHtmlValue;
+          break;
+        case ColumnTypesEnum.priority:
+          column.valueAccessor = this.getPriorityHtmlValue;
+          break;
+        default:
+          break;
       }
-      column.template = columnTypeTemplateMap.get(columnType);
+    } else if (TEXT_COLUMN_TYPES.includes(columnType)) {
+      column.valueAccessor = this.customValueAccessor;
     } else {
       column.template = columnTypeTemplateMap.get(columnType);
     }
-  }
-
-  collapsedCustomValueAccessor(
-    field: string,
-    data: GenericTask,
-    column: BoardColumn
-  ): string {
-    return '';
   }
 
   customValueAccessor(

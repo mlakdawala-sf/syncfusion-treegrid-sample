@@ -1,22 +1,32 @@
-<div #mainBoard>
-  <rpms-treegrid
-    *ngIf="columns?.length"
-    [maxRowsInViewPort]="maxRowsInViewPort"
-    [mainBoardHeight]="mainBoardHeight"
-    [groupId]="groups[0].id"
-    [boardId]="'id'"
-    [columns]="groupColumnMap.get(groups[0].id)"
-    [gridWidth]="groups[0].gridWidth"
-    [maxGridDepth]="5"
-    [dataSource]="flatTaskMap.get(groups[0].id)"
-    (updateTask)="updateTask($event)"
-    [editColumnHeader]="false"
-    parentIdMapping="parentTaskId"
-    idMapping="id"
-    [allowReordering]="true"
-    [rpmsConditionalFormatting]="[]"
-    [formatData]="formats"
-  ></rpms-treegrid>
+<div #mainBoard style="width: 1000px">
+  <div
+    *ngFor="let group of groups; trackBy: identify; let indexOfelement = index"
+    [attr.current-group]="group.id"
+  >
+    <div *ngIf="columns && columns.length" class="mb-16">
+      <rpms-treegrid
+        [maxRowsInViewPort]="maxRowsInViewPort"
+        [mainBoardHeight]="mainBoardHeight"
+        [groupId]="group.id"
+        [boardId]="'id'"
+        [columns]="groupColumnMap.get(group.id)"
+        [gridWidth]="group.gridWidth"
+        [maxGridDepth]="maxGridDepth"
+        [dataSource]="flatTaskMap.get(group.id)"
+        (updateTask)="updateTask($event)"
+        [editColumnHeader]="editColumnHeader"
+        (updateColumnWidth)="updateColumnWidth($event)"
+        (reorderColumn)="reorderColumn($event)"
+        (moveTaskToGroup)="moveTaskToGroupViaMenu($event)"
+        parentIdMapping="parentTaskId"
+        idMapping="id"
+        [hasPermission]="hasPermission"
+        [allowReordering]="!isGuestUser"
+        [rpmsConditionalFormatting]="[]"
+        [formatData]="formats"
+      ></rpms-treegrid>
+    </div>
+  </div>
 </div>
 
 <!--Templates For Status Type Column  -->
@@ -57,7 +67,7 @@
   <div
     rpms-task-label-template
     [data]="data"
-    [maxGridDepth]="5" 
+    [maxGridDepth]="5"
     [activeFormattingRules]="[]"
     [formats]="formats"
     class="cell-render-temp"

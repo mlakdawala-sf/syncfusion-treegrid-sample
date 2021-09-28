@@ -44,6 +44,8 @@ import { ConditionalFormattingDirective } from './syncfusion-treegrid/directives
 import { CheckBoxComponent } from '@syncfusion/ej2-angular-buttons';
 import { CheckboxTemplateComponent } from './templates/checkbox-template/checkbox-template.component';
 import { CountBoxComponent } from './syncfusion-treegrid/components/extra-badage/count-box.component';
+import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
+import { AccordianComponent } from './accordian/accordian.component';
 
 const components = [
   DateTemplateComponent,
@@ -89,12 +91,13 @@ const matModules = [
   MatMenuModule,
 ];
 @NgModule({
-  declarations: [AppComponent, ...components, ConditionalFormattingDirective],
+  declarations: [AppComponent, ...components, ConditionalFormattingDirective, AccordianComponent],
   imports: [
     BrowserModule,
     SynkFusionTreeGridModule,
     BrowserAnimationsModule,
     ...matModules,
+    AccordionModule,
   ],
   providers: [BoardColumnAdapter, GroupAdapter],
   bootstrap: [AppComponent],
