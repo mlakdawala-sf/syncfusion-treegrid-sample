@@ -162,3 +162,271 @@
     [ngClass]="data.column.collapse ? 'e-collapse' : ''"
   ></div>
 </ng-template>
+<ng-template #headerTemplate let-data>
+  <div
+    matTooltip="{{ data.headerText }}"
+    matTooltipPosition="above"
+    matTooltipClass="tooltip-above"
+    *ngIf="data.collapse"
+    class="cursor-pointer collapsed-btn"
+    (click)="expandCollapseColumns(false)"
+  >
+    <mat-icon class="icomoon Collapse" style="font-size: 19px"></mat-icon>
+  </div>
+  <div *ngIf="!data.collapse">
+    <div class="column-header-content fx" (click)="headerClick($event)">
+      <div
+        [id]="data.id"
+        [attr.sequenceNumber]="data.sequenceNumber"
+        [attr.allowReordering]="data.allowReordering"
+        *ngIf="
+          data.field === 'name' || data.field === 'menu';
+          else editTemplate
+        "
+        class="table-header pl-20 truncate-text"
+      >
+        <label
+          *ngIf="!data.isEdit"
+          (click)="editColumn($event)"
+          matTooltip="{{ data.headerText }}"
+          matTooltipClass="tooltip-above"
+          [matTooltipPosition]="'above'"
+          >{{ data.headerText }}</label
+        >
+        <div class="task-name-container" *ngIf="data.isEdit">
+          <input
+            type="text"
+            [rpmsAutoFocus]="data.isEdit"
+            [ngModel]="data.headerText"
+            class="task-name-text input-field"
+            (focusout)="renameColumn($event)"
+            (keydown.enter)="renameColumn($event)"
+            maxlength="300"
+          />
+        </div>
+      </div>
+      <span class="sorting-block">
+        <mat-icon
+          *ngIf="data.field === 'name' || data.field === 'menu'"
+          class="icomoon sort_arrows sort-action"
+          [ngClass]="['sort-action-' + data.field]"
+          (click)="applySortingOnGroups($event)"
+        ></mat-icon>
+      </span>
+    </div>
+    <ng-template #editTemplate>
+      <div class="table-header fx-center-start fx-100">
+        <ng-container
+          *ngxPermissionsOnly="columnHeaderViewItems.columnMenu + '/' + data.id"
+        >
+          <mat-icon
+            fxFlex="24px"
+            class="
+              icomoon
+              arrow_down
+              more-icon
+              menu-icon menu-icon
+              column-menu-icon
+            "
+            *ngIf="!data.isEdit && !!!data.columnPermission; else blank_content"
+            [matMenuTriggerFor]="menu"
+          ></mat-icon>
+          <ng-template #blank_content><span class="pl-27"></span></ng-template>
+        </ng-container>
+
+        <label
+          class="truncate-text"
+          *ngIf="!data.isEdit"
+          [id]="data.id"
+          [attr.sequenceNumber]="data.sequenceNumber"
+          [attr.allowReordering]="data.allowReordering"
+          (click)="editColumn($event)"
+          matTooltip="{{ data.headerText }}"
+          [matTooltipPosition]="'above'"
+          matTooltipClass="tooltip-above"
+          >{{ data.headerText }}</label
+        >
+        <div class="task-name-container" *ngIf="data.isEdit">
+          <input
+            type="text"
+            [rpmsAutoFocus]="data.isEdit"
+            [ngModel]="data.headerText"
+            class="task-name-text input-field"
+            (focusout)="renameColumn($event)"
+            (keydown.enter)="renameColumn($event)"
+            maxlength="300"
+          />
+        </div>
+        <mat-icon
+          fxFlex="24px"
+          class="icomoon info_outline description-icon"
+          *ngIf="data.description?.length"
+          matTooltip="{{ data.description }}"
+          matTooltipClass="tooltip-below"
+          (click)="addColumnDescription()"
+        ></mat-icon>
+
+        <span class="sorting-block" fxFlex="24px">
+          <mat-icon
+            *ngIf="data.columnType !== columnTypesEnum.lastUpdated"
+            class="icomoon sort_arrows sort-action"
+            [ngClass]="['sort-action-' + data.field]"
+            (click)="applySortingOnGroups($event)"
+          ></mat-icon>
+        </span>
+        <span *ngIf="!!data.columnPermission">
+          <mat-icon class="icon-area icon-small icomoon Lock"></mat-icon>
+        </span>
+        <mat-menu #menu="matMenu" class="board-menu-item">
+          <ng-template matMenuContent>
+            <span class="fx column-toolbox" (click)="$event.stopPropagation()">
+              <rpms-rich-text-toolbox
+                [id]="data.field"
+                type="1"
+                [format]="
+                  columnFormatMap.get(data.field)
+                    ? columnFormatMap.get(data.field)
+                    : {}
+                "
+                (applyStyle)="applyFormatting($event, false)"
+                (update)="applyFormatting($event.data, $event.changed)"
+              ></rpms-rich-text-toolbox>
+            </span>
+            <button
+              class="fx"
+              mat-menu-item
+              (click)="openColumnConfig()"
+              *ngxPermissionsOnly="
+                columnHeaderViewItems.columnConfig + '/' + data.id
+              "
+            >
+              <span class="mat-view-menuitem">
+                <mat-icon
+                  class="
+                    icon-area icon-small
+                    icomoon
+                    Settings-Outline
+                    cursor-pointer
+                  "
+                >
+                </mat-icon>
+                <span class="mat-view-menuitem-text">
+                  {{ columnConfig?.label }}
+                </span>
+              </span>
+            </button>
+            <button
+              class="fx"
+              mat-menu-item
+              (click)="openManagetag()"
+              *ngIf="data.columnType === columnTypesEnum.tag"
+            >
+              <span class="mat-view-menuitem">
+                <mat-icon
+                  class="
+                    icon-area icon-small
+                    icomoon
+                    Settings-Outline
+                    cursor-pointer
+                  "
+                >
+                </mat-icon>
+                <span class="mat-view-menuitem-text">{{
+                  "manageTags" | translate
+                }}</span>
+              </span>
+            </button>
+            <button
+              class="fx"
+              mat-menu-item
+              *ngxPermissionsOnly="
+                columnHeaderViewItems.columnPermission + '/' + data.id
+              "
+              (click)="openColumnPermissionDialog()"
+            >
+              <span class="mat-view-menuitem">
+                <mat-icon class="icon-area icon-small icomoon Lock"> </mat-icon>
+                <span class="mat-view-menuitem-text">{{
+                  "columnPermissionLbl" | translate
+                }}</span>
+              </span>
+            </button>
+            <button
+              class="fx"
+              mat-menu-item
+              (click)="handleColumnReplication()"
+              *ngxPermissionsOnly="
+                columnHeaderViewItems.columnDuplicate + '/' + data.id
+              "
+            >
+              <span class="mat-view-menuitem">
+                <mat-icon
+                  class="
+                    icon-area icon-small
+                    icomoon
+                    Copy-Outline
+                    cursor-pointer
+                  "
+                >
+                </mat-icon>
+                <span class="mat-view-menuitem-text">{{
+                  "duplicateColumnLbl" | translate
+                }}</span>
+              </span>
+            </button>
+            <button
+              class="fx"
+              mat-menu-item
+              (click)="expandCollapseColumns(true)"
+            >
+              <span class="mat-view-menuitem">
+                <mat-icon class="icon-area icon-small icomoon Collapse">
+                </mat-icon>
+                <span class="mat-view-menuitem-text">{{
+                  "collapseColumnLbl" | translate
+                }}</span>
+              </span>
+            </button>
+            <button
+              class="fx"
+              mat-menu-item
+              (click)="addColumnDescription()"
+              *ngxPermissionsOnly="
+                columnHeaderViewItems.columnDescription + '/' + data.id
+              "
+            >
+              <span class="mat-view-menuitem">
+                <span class="icon-area icomoon">
+                  <img
+                    src="assets/board/description.svg"
+                    alt="switchViewArrow"
+                    class="img-icon-small"
+                  />
+                </span>
+                <span class="mat-view-menuitem-text">{{
+                  "addDescriptionLbl" | translate
+                }}</span>
+              </span>
+            </button>
+            <button
+              class="fx"
+              mat-menu-item
+              *ngxPermissionsOnly="
+                columnHeaderViewItems.columnDelete + '/' + data.id
+              "
+              (click)="deleteColumn()"
+            >
+              <span class="mat-view-menuitem">
+                <mat-icon class="icon-area icon-small icomoon Delete-Outline">
+                </mat-icon>
+                <span class="mat-view-menuitem-text">{{
+                  "deleteColumnLbl" | translate
+                }}</span>
+              </span>
+            </button>
+          </ng-template>
+        </mat-menu>
+      </div>
+    </ng-template>
+  </div>
+</ng-template>
