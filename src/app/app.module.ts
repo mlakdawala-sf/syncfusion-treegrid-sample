@@ -44,6 +44,7 @@ import { ConditionalFormattingDirective } from './syncfusion-treegrid/directives
 import { CheckBoxComponent } from '@syncfusion/ej2-angular-buttons';
 import { CheckboxTemplateComponent } from './templates/checkbox-template/checkbox-template.component';
 import { CountBoxComponent } from './syncfusion-treegrid/components/extra-badage/count-box.component';
+import { ColumnMessageService } from './column-message.service';
 
 const components = [
   DateTemplateComponent,
@@ -96,7 +97,7 @@ const matModules = [
     BrowserAnimationsModule,
     ...matModules,
   ],
-  providers: [BoardColumnAdapter, GroupAdapter],
+  providers: [BoardColumnAdapter, GroupAdapter, ColumnMessageService],
   bootstrap: [AppComponent],
   exports: [
     ConditionalFormattingDirective,

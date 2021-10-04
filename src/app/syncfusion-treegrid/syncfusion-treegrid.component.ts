@@ -22,6 +22,8 @@ import { QueryCellInfoEventArgs } from '@syncfusion/ej2-grids';
 import { Tooltip } from '@syncfusion/ej2-popups';
 import { cloneDeep, isEqual } from 'lodash';
 import { Subscription } from 'rxjs';
+import { ColumnMessage, ColumnMessageType } from '../column-message-type.model';
+import { ColumnMessageService } from '../column-message.service';
 import { dataSource, virtualData } from './datasource';
 import { BoardColumn } from './models/board-columns.model';
 import {
@@ -58,7 +60,8 @@ export class SynkfusionTreeGridComponent
   constructor(
     private readonly gridUtilityService: TreeGridUtilityService,
     private readonly syncfusionUtilityService: SyncfusionGenericUtilityService,
-    private readonly taskAdapterService: TaskAdapterService
+    private readonly taskAdapterService: TaskAdapterService,
+    private readonly columnMessageService: ColumnMessageService
   ) {}
   @ViewChild('grid') grid: TreeGridComponent;
   ngOnInit() {
@@ -70,7 +73,7 @@ export class SynkfusionTreeGridComponent
       newRowPosition: 'Below',
       mode: 'Cell',
     };
-   
+    this._subscribeToColumnMessage();
   }
 
   protected _subscriptions: Subscription[] = [];
@@ -135,7 +138,6 @@ export class SynkfusionTreeGridComponent
   ngAfterViewInit() {
     this.grid.grid.resizeSettings = { mode: 'Auto' };
   }
-
 
   private _addRecordToGrid(data: IAddRecord) {
     this.grid.selectionSettings.persistSelection = true;
@@ -205,8 +207,7 @@ export class SynkfusionTreeGridComponent
     this.toolTip.emit();
   }
 
-  cellSave(args: any /*CellSaveArgs*/) {
-  }
+  cellSave(args: any /*CellSaveArgs*/) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -226,6 +227,32 @@ export class SynkfusionTreeGridComponent
       }
     }
   }
+  private _subscribeToColumnMessage() {
+    this._subscriptions.push(
+      this.columnMessageService
+        .getMessage()
+        .subscribe((message: ColumnMessage) => {
+          this._handleColumnMessage(message);
+        })
+    );
+  }
+  // sonarignore:start
+  private _handleColumnMessage(message: ColumnMessage) {
+    if (this.groupId === message?.messageMeta?.rowData?.groupId) {
+      switch (message.messageType) {
+        case ColumnMessageType.ExpandRow:
+          this.gridUtilityService.toggleExpand(
+            message.messageMeta.rowData,
+            this.grid,
+            message.messageMeta.rowData.expanded
+          );
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  // sonarignore:end
 
   cellEdit(event: any) {
     if (this.lastAddedRecord.length) {
@@ -233,7 +260,6 @@ export class SynkfusionTreeGridComponent
     } else {
       this.previousData = cloneDeep(event.rowData);
     }
- 
   }
 
   actionBegin(event: any) {

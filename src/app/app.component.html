@@ -57,10 +57,11 @@
   <div
     rpms-task-label-template
     [data]="data"
-    [maxGridDepth]="5" 
+    [maxGridDepth]="5"
     [activeFormattingRules]="[]"
     [formats]="formats"
     class="cell-render-temp"
+    (expandAndCollapseParentRowEmitter)="expandAndCollapseParentRow($event)"
     [ngClass]="{
       'pl-0':
         (data.depth === -1 || !data.depth) && data.column?.field === 'name',

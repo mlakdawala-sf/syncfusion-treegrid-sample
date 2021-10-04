@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { cloneDeep, orderBy } from 'lodash';
+import { ColumnMessageType } from './column-message-type.model';
+import { ColumnMessageService } from './column-message.service';
 import { BoardColumn } from './syncfusion-treegrid/models/board-columns.model';
 import {
   ColumnTypesEnum,
@@ -66,7 +68,8 @@ export class AppComponent {
     private readonly colAdapterService: BoardColumnAdapter,
     private readonly gpAdapterService: GroupAdapter,
     private readonly viewContainerRef: ViewContainerRef,
-    private readonly resolver: ComponentFactoryResolver
+    private readonly resolver: ComponentFactoryResolver,
+    private readonly columnMessageService: ColumnMessageService
   ) {}
 
   @ViewChild('headerTemplate', { read: TemplateRef })
@@ -128,13 +131,15 @@ export class AppComponent {
   }
 
   initDatasource() {
-    this.tasks = sampleTasks.map((t: any) =>
+    const tasks = sampleTasks.map((t: any) =>
       this.taskAdapterService.adaptToModel(t)
     );
-    this.columns = sampleColumns.map((t: any) =>
+    this.tasks = orderBy(tasks, 'sequenceNumber');
+    const columns = sampleColumns.map((t: any) =>
       this.colAdapterService.adaptToModel(t)
     );
-    this.groups = sampleGroups;
+    this.columns = orderBy(columns, 'sequenceNumber');
+    this.groups = orderBy(sampleGroups, 'sequenceNumber');
     this.createGroupColumnMap();
     this.createColumnTemplateMap();
 
@@ -151,6 +156,16 @@ export class AppComponent {
         this.tasks.filter((x: any) => x.groupId === group.id)
       );
     }
+  }
+
+  expandAndCollapseParentRow({ data, expand }: any) {
+    data.expanded = expand;
+    this.columnMessageService.sendMessage({
+      messageType: ColumnMessageType.ExpandRow,
+      messageMeta: {
+        rowData: data,
+      },
+    });
   }
 
   createGroupColumnMap() {

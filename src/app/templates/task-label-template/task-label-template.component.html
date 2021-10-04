@@ -1,11 +1,3 @@
-<em
-  [class.active-menu-icon]="data.active"
-  [matMenuTriggerFor]="taskOptions"
-  aria-hidden="false"
-  aria-label="Example home icon"
-  >home</em
->
-
 <span *ngIf="isGuestUser" class="icon-space-for-guest"></span>
 
 <span
@@ -76,9 +68,14 @@
 <em
   *ngIf="subtaskCount > 0 && data?.column?.field === 'name'"
   (dblclick)="$event.stopPropagation()"
+  (click)="
+    $event.stopPropagation(); expandAndCollapseParentRow(!data?.expanded)
+  "
   class="icomoon cursor-pointer expand-icon"
-  [ngClass]="data?.expanded ? 'ios_minus' : 'plus_small'"
-></em>
+  style="margin-left: 20px; padding: 5px; background-color: Red"
+>
+  {{ data?.expanded ? "-" : "+" }}
+</em>
 
 <mat-menu
   #taskOptions="matMenu"

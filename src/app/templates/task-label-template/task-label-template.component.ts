@@ -20,6 +20,8 @@ export class TaskLabelTemplateComponent {
   _data: any;
   subtaskCount = 0;
   isRootTask: boolean;
+  @Output() expandAndCollapseParentRowEmitter = new EventEmitter();
+
   @Input() set data(val) {
     this._data = val;
     if (this._data) {
@@ -40,4 +42,11 @@ export class TaskLabelTemplateComponent {
 
   @Input() isFilterApplied = false;
   @Input() isGuestUser = false;
+
+  expandAndCollapseParentRow(expand: boolean) {
+    this.expandAndCollapseParentRowEmitter.emit({
+      data: this._data,
+      expand,
+    });
+  }
 }
