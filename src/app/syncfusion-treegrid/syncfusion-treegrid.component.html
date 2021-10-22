@@ -1,7 +1,9 @@
 <ejs-treegrid
   #grid
   [dataSource]="dataSource"
+  [allowSorting]="true"
   [enableVirtualization]="true"
+  [enableColumnVirtualization]="true"
   idMapping="id"
   parentIdMapping="parentTaskId"
   [treeColumnIndex]="0"

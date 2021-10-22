@@ -237,10 +237,7 @@ export class SynkfusionTreeGridComponent
   }
 
   actionBegin(event: any) {
-    this.syncfusionUtilityService.onActionBegin(event);
-    if (event.requestType === ACTION_REQUEST_TYPES.VIRTUAL_SCROLL) {
-      this.showSpinner = true;
-    }
+    // sonar
   }
 
   rowDataBound(event: any) {
@@ -248,27 +245,7 @@ export class SynkfusionTreeGridComponent
   }
 
   actionComplete(args: any): void {
-    if (args.requestType === ACTION_REQUEST_TYPES.SAVE) {
-      const record = this.lastAddedRecord.find(
-        (x) => x.record?.id === args.data.id
-      );
-      this.lastAddedRecord.splice(0, 1);
-      if (record?.editCell && !this.lastAddedRecord.length) {
-        this.handleEditChangeAfterTaskAdd(args);
-      } else {
-        this.addRecordRecursiveHelper();
-      }
-    } else if (args.requestType === ACTION_REQUEST_TYPES.DELETE) {
-      this.handleGridHeightAndVirtualization();
-    } else if (
-      args.type === 'save' ||
-      (!args.cancel && args.requestType !== 'refresh')
-    ) {
-      this.handleGridHeightAndVirtualization();
-      this.addRecordRecursiveHelper();
-    } else {
-      // sonar
-    }
+    // sonar
   }
 
   handleEditChangeAfterTaskAdd(args: any) {
@@ -414,5 +391,9 @@ export class SynkfusionTreeGridComponent
         tooltip.appendTo(args.cell as HTMLElement);
       }
     }
+  }
+
+  sort() {
+    console.log(this.dataSource);
   }
 }
